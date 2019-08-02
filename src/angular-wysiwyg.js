@@ -280,9 +280,10 @@ Requires:
 
                 //Used to detect things like A tags and others that dont work with cmdValue().
                 function itemIs(tag) {
-                    var selection = window.getSelection().getRangeAt(0);
-                    if (selection) {
-                        if (selection.startContainer.parentNode.tagName === tag.toUpperCase() || selection.endContainer.parentNode.tagName === tag.toUpperCase()) {
+                    var selection = window.getSelection && window.getSelection();
+                    if (selection && selection.rangeCount > 0) {
+                        var range = selection.getRangeAt(0);
+                        if (range.startContainer.parentNode.tagName === tag.toUpperCase() || range.endContainer.parentNode.tagName === tag.toUpperCase()) {
                             return true;
                         } else {
                             return false;
@@ -294,9 +295,10 @@ Requires:
 
                 //Used to detect things like A tags and others that dont work with cmdValue().
                 function getHiliteColor() {
-                    var selection = window.getSelection().getRangeAt(0);
-                    if (selection) {
-                        var style = angular.element(selection.startContainer.parentNode).attr('style');
+                    var selection = window.getSelection && window.getSelection();
+                    if (selection && selection.rangeCount > 0) {
+                        var range = selection.getRangeAt(0);
+                        var style = angular.element(range.startContainer.parentNode).attr('style');
 
                         if (!angular.isDefined(style))
                             return false;
